@@ -10,7 +10,7 @@ class PixaboyParser {
         const val BASE_URL = "https://pixabay.com/ko/images/search/"
         const val QUERY_ITEM = "#wrapper #content .media_list div div .flex_grid .item"
         const val QUERY_ITEM_IMG = "a img"
-        const val QUERY_ITEM_IMG_SRC = "srcset"
+        const val QUERY_ITEM_IMG_SRC = "src"
     }
 
     private val getItems = { document: Document ->
@@ -19,7 +19,8 @@ class PixaboyParser {
 
     private val getImages = { element: Elements ->
         element.select(QUERY_ITEM_IMG).let { el ->
-            el.map { it.attr(QUERY_ITEM_IMG_SRC).split(" 1x, ").first() }
+            println(el)
+            el.map { it.attr(QUERY_ITEM_IMG_SRC) }
         }
     }
 
