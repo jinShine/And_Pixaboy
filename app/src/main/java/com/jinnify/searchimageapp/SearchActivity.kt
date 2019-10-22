@@ -6,17 +6,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
+import com.jinnify.searchimageapp.adapter.PixaboyAdapter
 import com.jinnify.searchimageapp.parser.PixaboyParser
+import com.jinnify.searchimageapp.repository.PixaboyRepositoryImpl
 import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AppCompatActivity() {
 
-
-
+    private var adapter: PixaboyAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        setupLayoutManager()
 
         @Suppress("UNCHECKED_CAST")
         val viewModel = ViewModelProviders.of(this, object : ViewModelProvider.Factory {
@@ -31,9 +34,27 @@ class SearchActivity : AppCompatActivity() {
             viewModel.searchImageFrom(searchText)
         }
 
+        swipeRefresh.setOnRefreshListener {
+            val searchText = searchEditText.text.toString()
+            viewModel.searchImageFrom(searchText)
+        }
+
         viewModel.searchedImageList.observe(this, Observer {
-            println("" + it)
+            swipeRefresh.isRefreshing = false
+            adapter?.updateAllItems(it)
         })
 
+        viewModel.errorData.observe(this, Observer {
+            swipeRefresh.isRefreshing = false
+
+        })
+
+    }
+
+    private fun setupLayoutManager() {
+        val layoutManager = GridLayoutManager(this,3)
+        adapter = PixaboyAdapter(layoutManager)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
     }
 }
