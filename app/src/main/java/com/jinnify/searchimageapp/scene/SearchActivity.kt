@@ -1,4 +1,4 @@
-package com.jinnify.searchimageapp.Scene
+package com.jinnify.searchimageapp.scene
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

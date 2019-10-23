@@ -1,4 +1,4 @@
-package com.jinnify.searchimageapp.Scene
+package com.jinnify.searchimageapp.scene
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
