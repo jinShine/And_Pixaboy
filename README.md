@@ -1,8 +1,8 @@
 # And_Pixaboy
 
-[Imgur](https://i.imgur.com/pBz99pc.png)
+![Imgur](https://i.imgur.com/pBz99pc.png)
 
-## Usage
+### Usage
 * Kotlin
 * AAC ViewModel
 * LiveData
