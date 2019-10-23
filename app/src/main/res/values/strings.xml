@@ -3,5 +3,5 @@
     <string name="search_button">검색</string>
     <string name="search_hint">검색어</string>
     <string name="item_image">itemImageView</string>
-    <string name="response_emtpy">검색 결과가 없습니다.</string>
+    <string name="result_empty">검색 결과가 없습니다.</string>
 </resources>
