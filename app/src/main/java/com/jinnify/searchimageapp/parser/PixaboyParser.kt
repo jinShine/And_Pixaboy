@@ -8,6 +8,7 @@ class PixaboyParser {
 
     companion object {
         const val BASE_URL = "https://pixabay.com/ko/images/search/"
+
         const val QUERY_ITEM = "#wrapper #content .media_list div div .flex_grid .item"
         const val QUERY_ITEM_IMG = "a img"
         const val QUERY_ITEM_IMG_SRC = "src"
@@ -34,8 +35,8 @@ class PixaboyParser {
         }
     }
 
-    private val getDocument = { text: String ->
-        Jsoup.connect(BASE_URL + text).get()
+    private val getDocument = { searchWord: String ->
+        Jsoup.connect(BASE_URL + searchWord).get()
     }
 
     private fun searchImageComposition(
@@ -44,12 +45,12 @@ class PixaboyParser {
         getImages: (Elements) -> List<String>
     ): (String) -> List<String> {
 
-        return { searchText ->
-            getImages(getItems(getDocument(searchText)))
+        return { searchWord ->
+            getImages(getItems(getDocument(searchWord)))
         }
     }
 
-    fun searchImageFrom(text: String): List<String> =
-        searchImageComposition(getDocument, getItems, getImages)(text)
+    fun searchImageFrom(searchWord: String): List<String> =
+        searchImageComposition(getDocument, getItems, getImages)(searchWord)
 
 }

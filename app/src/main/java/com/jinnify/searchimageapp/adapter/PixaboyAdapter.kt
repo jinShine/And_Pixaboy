@@ -3,6 +3,7 @@ package com.jinnify.searchimageapp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.jinnify.searchimageapp.R
 import com.jinnify.searchimageapp.data.PixaboyRecyclerType
@@ -21,10 +22,8 @@ class PixaboyAdapter(layoutManager: GridLayoutManager) :
     private val itemList = mutableListOf<PixaboyRecyclerType>()
 
     init {
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return itemList[position].spanSize
-            }
+        layoutManager.spanSizeLookup = object : SpanSizeLookup() {
+            override fun getSpanSize(position: Int) = itemList[position].spanSize
         }
     }
 

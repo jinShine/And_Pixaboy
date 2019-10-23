@@ -9,7 +9,7 @@ import kotlin.concurrent.thread
 interface PixaboyRepository {
 
     fun searchedImageLiveData(): LiveData<PixaboyResponse>
-    fun fetchSearchImageFrom(text: String)
+    fun fetchSearchImageFrom(searchWord: String)
 }
 
 class PixaboyRepositoryImpl(private val pixaboyParser: PixaboyParser) :
@@ -19,10 +19,10 @@ class PixaboyRepositoryImpl(private val pixaboyParser: PixaboyParser) :
 
     override fun searchedImageLiveData() = pixaboyLiveData
 
-    override fun fetchSearchImageFrom(text: String) {
+    override fun fetchSearchImageFrom(searchWord: String) {
         thread {
             Thread.sleep(1000L)
-            val searchedImage = pixaboyParser.searchImageFrom(text)
+            val searchedImage = pixaboyParser.searchImageFrom(searchWord)
 
             if (searchedImage.count() > 0) {
                 pixaboyLiveData.postValue(PixaboyResponse.Success(searchedImage))
