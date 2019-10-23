@@ -1,6 +1,6 @@
 # And_Pixaboy
 
-![Imgur](https://i.imgur.com/pBz99pc.png)
+![Imgur](https://i.imgur.com/yH6LELb.png?1)
 
 ### Usage
 * Kotlin
