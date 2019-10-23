@@ -20,7 +20,15 @@ class PixaboyParser {
     private val getImages = { element: Elements ->
         element.select(QUERY_ITEM_IMG).let { el ->
             println(el)
-            el.map { it.attr(QUERY_ITEM_IMG_SRC) }
+            var list = mutableListOf<String>()
+            el.forEach {
+                if (it.attr(QUERY_ITEM_IMG_SRC) == "/static/img/blank.gif") {
+                    list.add(it.attr("data-lazy-srcset").split(" 1x, ").first())
+                } else {
+                    list.add(it.attr(QUERY_ITEM_IMG_SRC))
+                }
+            }
+            list
         }
     }
 
