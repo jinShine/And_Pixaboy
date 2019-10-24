@@ -16,7 +16,7 @@ class PixaboyAdapter(layoutManager: GridLayoutManager) :
         const val PIXABOY_ITEM_IMAGE_SIZE = 1
 
         const val VIEW_TYPE_ITEM_IMAGE = R.layout.viewholder_image
-        const val VIEW_TYPE_RESULT_EMPTY = R.layout.viewholder_result_emtpy
+        const val VIEW_TYPE_STATUS_VIEW = R.layout.viewholder_status
     }
 
     private val itemList = mutableListOf<PixaboyRecyclerType>()
@@ -32,14 +32,14 @@ class PixaboyAdapter(layoutManager: GridLayoutManager) :
 
         return when (viewType) {
             VIEW_TYPE_ITEM_IMAGE -> ImageViewHolder(view)
-            VIEW_TYPE_RESULT_EMPTY -> ResultEmptyViewHolder(view)
+            VIEW_TYPE_STATUS_VIEW -> ResultEmptyViewHolder(view)
             else -> throw RuntimeException("Invalid Type")
         }
     }
 
     override fun getItemViewType(position: Int) = when (itemList[position]) {
         is PixaboyRecyclerType.ImageItem -> VIEW_TYPE_ITEM_IMAGE
-        is PixaboyRecyclerType.ResultEmpty -> VIEW_TYPE_RESULT_EMPTY
+        is PixaboyRecyclerType.StatusView -> VIEW_TYPE_STATUS_VIEW
     }
 
     override fun getItemCount() = itemList.count()

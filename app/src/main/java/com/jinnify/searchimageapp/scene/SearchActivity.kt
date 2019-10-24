@@ -46,7 +46,7 @@ class SearchActivity : AppCompatActivity() {
 
         swipeRefresh.setOnRefreshListener { searchImage() }
 
-        viewModel.searchedImageList.observe(this, Observer {
+        viewModel.bindingLiveData.observe(this, Observer {
             swipeRefresh.isRefreshing = false
             adapter?.updateAllItems(it)
         })

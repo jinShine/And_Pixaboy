@@ -7,6 +7,6 @@ sealed class PixaboyRecyclerType(val spanSize: Int) {
 
     data class ImageItem(val data: String) : PixaboyRecyclerType(PIXABOY_ITEM_IMAGE_SIZE)
 
-    data class ResultEmpty(val data: Int) : PixaboyRecyclerType(FULL_SPAN_SIZE)
+    data class StatusView(val data: Int) : PixaboyRecyclerType(FULL_SPAN_SIZE)
 
 }
