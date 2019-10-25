@@ -12,8 +12,7 @@ interface PixaboyRepository {
     fun fetchSearchImageFrom(searchWord: String)
 }
 
-class PixaboyRepositoryImpl(private val pixaboyParser: PixaboyParser) :
-    PixaboyRepository {
+class PixaboyRepositoryImpl(private val pixaboyParser: PixaboyParser) : PixaboyRepository {
 
     private val pixaboyLiveData = MutableLiveData<PixaboyResponse>()
 
@@ -27,6 +26,7 @@ class PixaboyRepositoryImpl(private val pixaboyParser: PixaboyParser) :
             if (searchedImage.count() > 0) {
                 pixaboyLiveData.postValue(PixaboyResponse.Success(searchedImage))
             } else {
+                //- network error
                 pixaboyLiveData.postValue(PixaboyResponse.Failure(ParserError.EMPTY))
             }
         }

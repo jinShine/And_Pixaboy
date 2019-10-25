@@ -2,6 +2,7 @@ package com.jinnify.searchimageapp.parser
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 
 class PixaboyParser {
@@ -22,21 +23,28 @@ class PixaboyParser {
     }
 
     private val getImages = { element: Elements ->
-        element.select(QUERY_ITEM_IMG).let { el ->
-            mutableListOf<String>().apply {
-                el.forEach {
-                    if (it.attr(QUERY_ITEM_IMG_SRC) == QUERY_ITEM_PAGINATION_ATTR) {
-                        add(it.attr(QUERY_ITEM_LAZY_SRC).split(SPLIT_ATTR).first())
-                    } else {
-                        add(it.attr(QUERY_ITEM_IMG_SRC))
-                    }
-                }
+        element.select(QUERY_ITEM_IMG).map {
+            if (it.attr(QUERY_ITEM_IMG_SRC) == QUERY_ITEM_PAGINATION_ATTR) {
+                it.attr(QUERY_ITEM_LAZY_SRC).split(SPLIT_ATTR).first()
+            } else {
+                it.attr(QUERY_ITEM_IMG_SRC)
             }
         }
+//            .let { el ->
+//            mutableListOf<String>().apply {
+//                el.forEach {
+//                    if (it.attr(QUERY_ITEM_IMG_SRC) == QUERY_ITEM_PAGINATION_ATTR) {
+//                        add(it.attr(QUERY_ITEM_LAZY_SRC).split(SPLIT_ATTR).first())
+//                    } else {
+//                        add(it.attr(QUERY_ITEM_IMG_SRC))
+//                    }
+//                }
+//            }
+//    }
     }
 
     private val getDocument = { searchWord: String ->
-        Jsoup.connect(BASE_URL + searchWord).get()
+        Jsoup.connect("$BASE_URL$searchWord").get()
     }
 
     private fun searchImageComposition(
@@ -50,7 +58,7 @@ class PixaboyParser {
         }
     }
 
-    fun searchImageFrom(searchWord: String): List<String> =
+    fun searchImageFrom(searchWord: String) =
         searchImageComposition(getDocument, getItems, getImages)(searchWord)
 
 }

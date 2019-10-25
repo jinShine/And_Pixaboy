@@ -1,4 +1,4 @@
-package com.jinnify.searchimageapp.data
+package com.jinnify.searchimageapp.adapter
 
 import com.jinnify.searchimageapp.adapter.PixaboyAdapter.Companion.FULL_SPAN_SIZE
 import com.jinnify.searchimageapp.adapter.PixaboyAdapter.Companion.PIXABOY_ITEM_IMAGE_SIZE

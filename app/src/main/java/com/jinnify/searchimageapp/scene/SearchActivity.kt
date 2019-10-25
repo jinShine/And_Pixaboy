@@ -1,6 +1,8 @@
 package com.jinnify.searchimageapp.scene
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -31,7 +33,17 @@ class SearchActivity : AppCompatActivity() {
         setupEventBinding()
     }
 
-    private fun searchImage() = searchEditText.text.toString().let { viewModel.searchImageFrom(it) }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+
+
+
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    //-
+    private fun searchImage() = searchEditText.text.toString().let(viewModel::searchImageFrom)
 
     private fun setupLayoutManager() {
         val layoutManager = GridLayoutManager(this, PixaboyAdapter.FULL_SPAN_SIZE)
@@ -42,10 +54,11 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setupEventBinding() {
 
-        SearchButton.setOnClickListener { searchImage() }
+        searchButton.setOnClickListener { searchImage() }
 
         swipeRefresh.setOnRefreshListener { searchImage() }
 
+        //-
         viewModel.bindingLiveData.observe(this, Observer {
             swipeRefresh.isRefreshing = false
             adapter?.updateAllItems(it)

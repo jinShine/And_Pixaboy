@@ -3,7 +3,6 @@ package com.jinnify.searchimageapp.adapter
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.jinnify.searchimageapp.data.PixaboyRecyclerType
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.viewholder_image.view.*
 

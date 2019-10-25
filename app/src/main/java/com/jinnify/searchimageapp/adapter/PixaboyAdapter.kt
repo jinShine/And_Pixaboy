@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.jinnify.searchimageapp.R
-import com.jinnify.searchimageapp.data.PixaboyRecyclerType
 
 class PixaboyAdapter(layoutManager: GridLayoutManager) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".scene.SearchActivity">
 
+    <!-- 액션바에 넣기 -->
+
     <EditText
         android:id="@+id/searchEditText"
         android:layout_width="0dp"
@@ -16,13 +18,13 @@
         android:hint="@string/search_hint"
         android:importantForAutofill="no"
         android:inputType="text"
-        app:layout_constraintEnd_toStartOf="@id/SearchButton"
+        app:layout_constraintEnd_toStartOf="@id/searchButton"
         app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/SearchButton"
+        android:id="@+id/searchButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/basic_margin"
