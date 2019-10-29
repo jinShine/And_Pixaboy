@@ -36,13 +36,10 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
 
-
-
-
         return super.onCreateOptionsMenu(menu)
     }
 
-    //-
+    //- Reference to Function
     private fun searchImage() = searchEditText.text.toString().let(viewModel::searchImageFrom)
 
     private fun setupLayoutManager() {
@@ -58,9 +55,12 @@ class SearchActivity : AppCompatActivity() {
 
         swipeRefresh.setOnRefreshListener { searchImage() }
 
-        //-
+        //- Swipe LiveData 분리
+        viewModel.isSwipeRefresh.observe(this, Observer {
+            swipeRefresh.isRefreshing = it
+        })
+
         viewModel.bindingLiveData.observe(this, Observer {
-            swipeRefresh.isRefreshing = false
             adapter?.updateAllItems(it)
         })
     }

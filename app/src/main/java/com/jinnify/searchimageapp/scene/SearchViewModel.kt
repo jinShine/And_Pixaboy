@@ -15,14 +15,23 @@ class SearchViewModel(private val pixaboyRepository: PixaboyRepository) : ViewMo
     private val _bindingLiveData = MutableLiveData<List<PixaboyRecyclerType>>()
     val bindingLiveData: LiveData<List<PixaboyRecyclerType>> = _bindingLiveData
 
+    private val _isSwipeRefresh = MutableLiveData<Boolean>()
+    val isSwipeRefresh: LiveData<Boolean> = _isSwipeRefresh
+
     //Output
     private val liveDataManager = Observer<PixaboyResponse> { response ->
         when (response) {
-            is PixaboyResponse.Success -> _bindingLiveData.value = transform(response.data)
-            is PixaboyResponse.Failure -> _bindingLiveData.value = when (response.error) {
-                ParserError.EMPTY -> {
-                    //-
-                    listOf(PixaboyRecyclerType.StatusView(R.string.result_empty))
+            is PixaboyResponse.Success -> {
+                _isSwipeRefresh.value = false
+                _bindingLiveData.value = transform(response.data)
+            }
+            is PixaboyResponse.Failure -> {
+                _isSwipeRefresh.value = false
+                _bindingLiveData.value = when (response.error) {
+                    ParserError.EMPTY -> {
+                        //-
+                        listOf(PixaboyRecyclerType.StatusView(R.string.result_empty))
+                    }
                 }
             }
         }
@@ -42,19 +51,6 @@ class SearchViewModel(private val pixaboyRepository: PixaboyRepository) : ViewMo
         super.onCleared()
     }
 
-    //-
-//    private
-//    when (response) {
-//        is PixaboyResponse.Success -> _bindingLiveData.value = transform(response.data)
-//        is PixaboyResponse.Failure -> _bindingLiveData.value = when (response.error) {
-//            ParserError.EMPTY -> {
-//            listOf(PixaboyRecyclerType.StatusView(R.string.result_empty))
-//        }
-//        }
-//    }
     private fun transform(items: List<String>) = items.map(PixaboyRecyclerType::ImageItem)
-
-
-
 
 }

@@ -1,7 +1,8 @@
-package com.jinnify.searchimageapp.adapter
+package com.jinnify.searchimageapp.adapter.searchviewholder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.jinnify.searchimageapp.adapter.PixaboyRecyclerType
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.viewholder_status.view.*
 

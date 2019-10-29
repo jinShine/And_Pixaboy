@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.jinnify.searchimageapp.R
+import com.jinnify.searchimageapp.adapter.searchviewholder.ImageViewHolder
+import com.jinnify.searchimageapp.adapter.searchviewholder.ResultEmptyViewHolder
 
 class PixaboyAdapter(layoutManager: GridLayoutManager) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -31,7 +33,9 @@ class PixaboyAdapter(layoutManager: GridLayoutManager) :
 
         return when (viewType) {
             VIEW_TYPE_ITEM_IMAGE -> ImageViewHolder(view)
-            VIEW_TYPE_STATUS_VIEW -> ResultEmptyViewHolder(view)
+            VIEW_TYPE_STATUS_VIEW -> ResultEmptyViewHolder(
+                view
+            )
             else -> throw RuntimeException("Invalid Type")
         }
     }

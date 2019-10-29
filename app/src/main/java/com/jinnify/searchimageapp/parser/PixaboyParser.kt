@@ -2,7 +2,6 @@ package com.jinnify.searchimageapp.parser
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 
 class PixaboyParser {
@@ -30,21 +29,15 @@ class PixaboyParser {
                 it.attr(QUERY_ITEM_IMG_SRC)
             }
         }
-//            .let { el ->
-//            mutableListOf<String>().apply {
-//                el.forEach {
-//                    if (it.attr(QUERY_ITEM_IMG_SRC) == QUERY_ITEM_PAGINATION_ATTR) {
-//                        add(it.attr(QUERY_ITEM_LAZY_SRC).split(SPLIT_ATTR).first())
-//                    } else {
-//                        add(it.attr(QUERY_ITEM_IMG_SRC))
-//                    }
-//                }
-//            }
-//    }
     }
 
-    private val getDocument = { searchWord: String ->
-        Jsoup.connect("$BASE_URL$searchWord").get()
+    private fun getDoc(searchWord: String): Pair<Document?, ParserError?> {
+        try {
+            Jsoup.connect("$BASE_URL$searchWord").timeout(5).get()
+            Pair()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun searchImageComposition(
@@ -58,7 +51,7 @@ class PixaboyParser {
         }
     }
 
-    fun searchImageFrom(searchWord: String) =
-        searchImageComposition(getDocument, getItems, getImages)(searchWord)
+    fun searchImageFrom(searchWord: String) = getDocument(searchWord)
+//        searchImageComposition(getDocument, getItems, getImages)(searchWord)
 
 }

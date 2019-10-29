@@ -23,12 +23,13 @@ class PixaboyRepositoryImpl(private val pixaboyParser: PixaboyParser) : PixaboyR
             Thread.sleep(1000L)
             val searchedImage = pixaboyParser.searchImageFrom(searchWord)
 
-            if (searchedImage.count() > 0) {
-                pixaboyLiveData.postValue(PixaboyResponse.Success(searchedImage))
-            } else {
-                //- network error
-                pixaboyLiveData.postValue(PixaboyResponse.Failure(ParserError.EMPTY))
-            }
+            println(searchedImage)
+//            if (searchedImage.count() > 0) {
+//                pixaboyLiveData.postValue(PixaboyResponse.Success(searchedImage))
+//            } else {
+//                //- network error
+//                pixaboyLiveData.postValue(PixaboyResponse.Failure(ParserError.EMPTY))
+//            }
         }
     }
 }
