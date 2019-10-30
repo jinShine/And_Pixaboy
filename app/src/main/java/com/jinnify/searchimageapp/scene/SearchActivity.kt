@@ -2,8 +2,8 @@ package com.jinnify.searchimageapp.scene
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 class SearchActivity : AppCompatActivity() {
 
     private var adapter: PixaboyAdapter? = null
+    private var searchWord: String? = null
 
     @Suppress("UNCHECKED_CAST")
     private val viewModel: SearchViewModel by lazy {
@@ -34,13 +35,27 @@ class SearchActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
         menuInflater.inflate(R.menu.search_menu, menu)
+        val searchView = menu?.findItem(R.id.actionSearch)?.actionView as SearchView
+        searchView.queryHint = getString(R.string.search_hint)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchWord = query
+                searchWord?.let { viewModel.searchImageFrom(it) }
+                searchView.clearFocus()
+
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
 
         return super.onCreateOptionsMenu(menu)
     }
-
-    //- Reference to Function
-    private fun searchImage() = searchEditText.text.toString().let(viewModel::searchImageFrom)
 
     private fun setupLayoutManager() {
         val layoutManager = GridLayoutManager(this, PixaboyAdapter.FULL_SPAN_SIZE)
@@ -51,11 +66,8 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setupEventBinding() {
 
-        searchButton.setOnClickListener { searchImage() }
+        swipeRefresh.setOnRefreshListener { searchWord?.let(viewModel::searchImageFrom) }
 
-        swipeRefresh.setOnRefreshListener { searchImage() }
-
-        //- Swipe LiveData 분리
         viewModel.isSwipeRefresh.observe(this, Observer {
             swipeRefresh.isRefreshing = it
         })
