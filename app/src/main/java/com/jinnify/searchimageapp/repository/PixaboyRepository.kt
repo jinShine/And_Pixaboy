@@ -2,7 +2,6 @@ package com.jinnify.searchimageapp.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jinnify.searchimageapp.parser.ParserError
 import com.jinnify.searchimageapp.parser.PixaboyParser
 import kotlin.concurrent.thread
 
@@ -21,15 +20,7 @@ class PixaboyRepositoryImpl(private val pixaboyParser: PixaboyParser) : PixaboyR
     override fun fetchSearchImageFrom(searchWord: String) {
         thread {
             Thread.sleep(1000L)
-            val searchedImage = pixaboyParser.searchImageFrom(searchWord)
-
-            println(searchedImage)
-//            if (searchedImage.count() > 0) {
-//                pixaboyLiveData.postValue(PixaboyResponse.Success(searchedImage))
-//            } else {
-//                //- network error
-//                pixaboyLiveData.postValue(PixaboyResponse.Failure(ParserError.EMPTY))
-//            }
+            pixaboyLiveData.postValue(pixaboyParser.searchImageFrom(searchWord))
         }
     }
 }

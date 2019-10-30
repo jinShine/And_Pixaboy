@@ -29,8 +29,10 @@ class SearchViewModel(private val pixaboyRepository: PixaboyRepository) : ViewMo
                 _isSwipeRefresh.value = false
                 _bindingLiveData.value = when (response.error) {
                     ParserError.EMPTY -> {
-                        //-
                         listOf(PixaboyRecyclerType.StatusView(R.string.result_empty))
+                    }
+                    ParserError.NETWORK -> {
+                        listOf(PixaboyRecyclerType.StatusView(R.string.result_network_error))
                     }
                 }
             }
