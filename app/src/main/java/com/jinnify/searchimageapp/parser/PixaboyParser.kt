@@ -1,6 +1,5 @@
 package com.jinnify.searchimageapp.parser
 
-import com.jinnify.searchimageapp.repository.PixaboyResponse
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
@@ -32,27 +31,16 @@ class PixaboyParser {
         }
     }
 
-    private fun getDocument(searchWord: String): Document? {
+    @Throws(PixaboyNetworkException::class)
+    private fun getDocument(searchWord: String): Document {
 
         return try {
             Jsoup.connect("$BASE_URL$searchWord").get()
         } catch (e: Exception) {
-            e.printStackTrace()
-            null
+            throw PixaboyNetworkException("Network Error")
         }
     }
 
-    fun searchImageFrom(searchWord: String): PixaboyResponse {
-
-        return getDocument(searchWord)?.let { doc ->
-            if (getImages(getItems(doc)).count() > 0) {
-                PixaboyResponse.Success(getImages(getItems(doc)))
-            } else {
-                PixaboyResponse.Failure(ParserError.EMPTY)
-            }
-        } ?: run {
-            PixaboyResponse.Failure(ParserError.NETWORK)
-        }
-    }
+    fun searchImageFrom(searchWord: String) = getImages(getItems(getDocument(searchWord)))
 
 }
