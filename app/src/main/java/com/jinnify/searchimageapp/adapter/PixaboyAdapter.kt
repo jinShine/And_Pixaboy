@@ -1,6 +1,7 @@
 package com.jinnify.searchimageapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
@@ -9,8 +10,14 @@ import com.jinnify.searchimageapp.R
 import com.jinnify.searchimageapp.adapter.searchviewholder.ImageViewHolder
 import com.jinnify.searchimageapp.adapter.searchviewholder.ResultEmptyViewHolder
 
-class PixaboyAdapter(layoutManager: GridLayoutManager) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+interface PixaboyEvents {
+    fun onItemClick(item: View)
+}
+
+class PixaboyAdapter(
+    layoutManager: GridLayoutManager,
+    private val events: PixaboyEvents
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val FULL_SPAN_SIZE = 3
@@ -32,10 +39,8 @@ class PixaboyAdapter(layoutManager: GridLayoutManager) :
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
 
         return when (viewType) {
-            VIEW_TYPE_ITEM_IMAGE -> ImageViewHolder(view)
-            VIEW_TYPE_STATUS_VIEW -> ResultEmptyViewHolder(
-                view
-            )
+            VIEW_TYPE_ITEM_IMAGE -> ImageViewHolder(view, events)
+            VIEW_TYPE_STATUS_VIEW -> ResultEmptyViewHolder(view)
             else -> throw RuntimeException("Invalid Type")
         }
     }
@@ -60,4 +65,5 @@ class PixaboyAdapter(layoutManager: GridLayoutManager) :
 
         notifyDataSetChanged()
     }
+
 }
