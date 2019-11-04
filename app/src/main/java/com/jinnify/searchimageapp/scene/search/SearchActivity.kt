@@ -6,22 +6,24 @@ import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jinnify.searchimageapp.R
 import com.jinnify.searchimageapp.adapter.PixaboyAdapter
 import com.jinnify.searchimageapp.adapter.PixaboyEvents
+import com.jinnify.searchimageapp.core.Constant
 import com.jinnify.searchimageapp.parser.PixaboyParser
 import com.jinnify.searchimageapp.repository.PixaboyRepositoryImpl
 import com.jinnify.searchimageapp.scene.detail.DetailActivity
 import com.jinnify.searchimageapp.utility.BaseViewModelFactory
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.viewholder_image.view.*
 
 class SearchActivity : AppCompatActivity(), PixaboyEvents {
 
     private var adapter: PixaboyAdapter? = null
-    private var searchWord: String? = null
 
     @Suppress("UNCHECKED_CAST")
     private val viewModel: SearchViewModel by lazy {
@@ -50,8 +52,7 @@ class SearchActivity : AppCompatActivity(), PixaboyEvents {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchWord = query
-                searchWord?.let { viewModel.searchImageFrom(it) }
+                viewModel.searchImageFrom(query)
                 searchView.clearFocus()
 
                 return false
@@ -65,21 +66,15 @@ class SearchActivity : AppCompatActivity(), PixaboyEvents {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onItemClick(item: View) {
-        println("")
-//        val anim = AnimationUtils.loadAnimation(this, R.anim.anim_translate_scale)
-//        item.startAnimation(anim)
-
-//        item.bringToFront()
-//        item.animate()
-//            .translationX(130.0f)
-//            .translationY(130.0f)
-//            .scaleX(2.0f)
-//            .scaleY(2.0f)
-//            .setDuration(1000L)
-//            .start()
-        startActivity(Intent(this, DetailActivity::class.java))
-
+    override fun onItemClick(item: View, itemURL: String) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra(Constant.Intent.SELECTED_IMAGE_URL, itemURL)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            this,
+            item.itemImageView,
+            item.itemImageView.transitionName
+        )
+        startActivity(intent, options.toBundle())
     }
 
     private fun setupLayoutManager() {
@@ -91,7 +86,7 @@ class SearchActivity : AppCompatActivity(), PixaboyEvents {
 
     private fun setupEventBinding() {
 
-        swipeRefresh.setOnRefreshListener { searchWord?.let(viewModel::searchImageFrom) }
+        swipeRefresh.setOnRefreshListener { viewModel.searchImageFrom() }
 
         viewModel.isSwipeRefresh.observe(this, Observer {
             swipeRefresh.isRefreshing = it

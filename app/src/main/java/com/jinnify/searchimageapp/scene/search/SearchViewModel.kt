@@ -18,6 +18,8 @@ class SearchViewModel(private val pixaboyRepository: PixaboyRepository) : ViewMo
     private val _isSwipeRefresh = MutableLiveData<Boolean>()
     val isSwipeRefresh: LiveData<Boolean> = _isSwipeRefresh
 
+    private var _searchWord: String? = null
+
     //Output
     private val liveDataManager = Observer<PixaboyResponse> { response ->
         when (response) {
@@ -43,9 +45,13 @@ class SearchViewModel(private val pixaboyRepository: PixaboyRepository) : ViewMo
         pixaboyRepository.searchedImageLiveData().observeForever(liveDataManager)
     }
 
-    fun searchImageFrom(searchWord: String) {
-        _bindingLiveData.value = listOf(PixaboyRecyclerType.StatusView(R.string.result_loading))
-        pixaboyRepository.fetchSearchImageFrom(searchWord)
+    fun searchImageFrom(searchWord: String? = _searchWord) {
+        _searchWord = searchWord
+
+        _searchWord?.let {
+            _bindingLiveData.value = listOf(PixaboyRecyclerType.StatusView(R.string.result_loading))
+            pixaboyRepository.fetchSearchImageFrom(it)
+        }
     }
 
     override fun onCleared() {
