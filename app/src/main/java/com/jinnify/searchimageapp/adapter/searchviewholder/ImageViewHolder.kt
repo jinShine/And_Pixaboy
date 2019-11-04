@@ -1,7 +1,6 @@
 package com.jinnify.searchimageapp.adapter.searchviewholder
 
 import android.view.View
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jinnify.searchimageapp.adapter.PixaboyEvents
@@ -33,7 +32,7 @@ class ImageViewHolder(
                 .into(itemImageView)
 
             itemImageView.setOnClickListener {
-                events.onItemClick(this)
+                events.onItemClick(it, item.data)
             }
         }
     }

@@ -11,7 +11,7 @@ import com.jinnify.searchimageapp.adapter.searchviewholder.ImageViewHolder
 import com.jinnify.searchimageapp.adapter.searchviewholder.ResultEmptyViewHolder
 
 interface PixaboyEvents {
-    fun onItemClick(item: View)
+    fun onItemClick(item: View, itemURL: String)
 }
 
 class PixaboyAdapter(
