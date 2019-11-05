@@ -12,19 +12,19 @@ class DetailActivity : AppCompatActivity() {
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
 
-        val intent = intent
-        val itemUrl = intent.getStringExtra(Constant.Intent.SELECTED_IMAGE_URL)
-
-        Glide.with(this)
-            .load(itemUrl)
-            .into(itemImageView)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
+        val itemUrl = intent.getStringExtra(Constant.Intent.SELECTED_IMAGE_URL)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        Glide.with(this)
+            .load(itemUrl)
+            .into(itemImageView)
     }
 
     override fun onSupportNavigateUp(): Boolean {

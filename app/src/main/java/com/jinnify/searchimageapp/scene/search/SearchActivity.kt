@@ -66,16 +66,17 @@ class SearchActivity : AppCompatActivity(), PixaboyEvents {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onItemClick(item: View, itemURL: String) {
-        val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra(Constant.Intent.SELECTED_IMAGE_URL, itemURL)
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            this,
-            item.itemImageView,
-            item.itemImageView.transitionName
+    override fun onItemClick(item: View, itemURL: String) =
+        startActivity(
+            Intent(this, DetailActivity::class.java).apply {
+                putExtra(Constant.Intent.SELECTED_IMAGE_URL, itemURL)
+            },
+            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this,
+                item.itemImageView,
+                item.itemImageView.transitionName
+            ).toBundle()
         )
-        startActivity(intent, options.toBundle())
-    }
 
     private fun setupLayoutManager() {
         val layoutManager = GridLayoutManager(this, PixaboyAdapter.FULL_SPAN_SIZE)
